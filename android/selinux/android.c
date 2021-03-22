@@ -1,6 +1,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 
+#ifdef SELINUX_ENABLE
 #include "cutils/log.h"
 
 #include "android.h"
@@ -37,3 +38,4 @@ int selinux_log_callback(int type, const char *fmt, ...)
 
     return 0;
 }
+#endif

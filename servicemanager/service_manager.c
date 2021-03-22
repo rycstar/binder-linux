@@ -10,8 +10,10 @@
 
 #include <private/android_filesystem_config.h>
 
+#ifdef SELINUX_ENABLE
 #include <selinux/android.h>
 #include <selinux/avc.h>
+#endif
 
 #include "binder.h"
 
@@ -52,6 +54,7 @@ int str16eq(const uint16_t *a, const char *b)
     return 1;
 }
 
+#ifdef SELINUX_ENABLE
 static int selinux_enabled;
 static char *service_manager_context;
 static struct selabel_handle* sehandle;
@@ -125,6 +128,8 @@ static int svc_can_find(const uint16_t *name, size_t name_len, pid_t spid)
     return check_mac_perms_from_lookup(spid, perm, str8(name, name_len)) ? 1 : 0;
 }
 
+#endif 
+
 struct svcinfo
 {
     struct svcinfo *next;
@@ -184,10 +189,11 @@ uint32_t do_find_service(struct binder_state *bs, const uint16_t *s, size_t len,
         }
     }
 
+#ifdef SELINUX_ENABLE
     if (!svc_can_find(s, len, spid)) {
         return 0;
     }
-
+#endif
     return si->handle;
 }
 
@@ -204,11 +210,13 @@ int do_add_service(struct binder_state *bs,
     if (!handle || (len == 0) || (len > 127))
         return -1;
 
+#ifdef SELINUX_ENABLE
     if (!svc_can_register(s, len, spid)) {
         ALOGE("add_service('%s',%x) uid=%d - PERMISSION DENIED\n",
              str8(s, len), handle, uid);
         return -1;
     }
+#endif
 
     si = find_svc(s, len);
     if (si) {
@@ -278,6 +286,7 @@ int svcmgr_handler(struct binder_state *bs,
         return -1;
     }
 
+#ifdef SELINUX_ENABLE
     if (sehandle && selinux_status_updated() > 0) {
         struct selabel_handle *tmp_sehandle = selinux_android_service_context_handle();
         if (tmp_sehandle) {
@@ -285,6 +294,7 @@ int svcmgr_handler(struct binder_state *bs,
             sehandle = tmp_sehandle;
         }
     }
+#endif
 
     switch(txn->code) {
     case SVC_MGR_GET_SERVICE:
@@ -314,11 +324,13 @@ int svcmgr_handler(struct binder_state *bs,
     case SVC_MGR_LIST_SERVICES: {
         uint32_t n = bio_get_uint32(msg);
 
+#ifdef SELINUX_ENABLE
         if (!svc_can_list(txn->sender_pid)) {
             ALOGE("list_service() uid=%d - PERMISSION DENIED\n",
                     txn->sender_euid);
             return -1;
         }
+#endif
         si = svclist;
         while ((n-- > 0) && si)
             si = si->next;
@@ -337,12 +349,13 @@ int svcmgr_handler(struct binder_state *bs,
     return 0;
 }
 
-
+#ifdef SELINUX_ENABLE
 static int audit_callback(void *data, security_class_t cls, char *buf, size_t len)
 {
     snprintf(buf, len, "service=%s", !data ? "NULL" : (char *)data);
     return 0;
 }
+#endif
 
 int main(int argc, char **argv)
 {
@@ -359,6 +372,7 @@ int main(int argc, char **argv)
         return -1;
     }
 
+#ifdef SELINUX_ENABLE
     selinux_enabled = is_selinux_enabled();
     sehandle = selinux_android_service_context_handle();
     selinux_status_open(true);
@@ -380,6 +394,7 @@ int main(int argc, char **argv)
     selinux_set_callback(SELINUX_CB_AUDIT, cb);
     cb.func_log = selinux_log_callback;
     selinux_set_callback(SELINUX_CB_LOG, cb);
+#endif
 
     binder_loop(bs, svcmgr_handler);
 

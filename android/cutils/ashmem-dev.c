@@ -24,7 +24,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <pthread.h>
-#include <bsd/string.h>
+#include <string.h>
 #include <sys/ioctl.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -153,7 +153,7 @@ int ashmem_create_region(const char *name, size_t size)
     if (name) {
         char buf[ASHMEM_NAME_LEN] = {0};
 
-        strlcpy(buf, name, sizeof(buf));
+        snprintf(buf, sizeof(buf), "%s", name);
         ret = TEMP_FAILURE_RETRY(ioctl(fd, ASHMEM_SET_NAME, buf));
         if (ret < 0) {
             goto error;

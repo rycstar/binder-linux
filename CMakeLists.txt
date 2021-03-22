@@ -32,16 +32,16 @@ set(SRCS
 )
 
 add_library(binder SHARED ${SRCS})
-target_link_libraries(binder android pthread bsd)
+target_link_libraries(binder android pthread)
 
 add_executable(test_main test/test_main.cpp)
 target_link_libraries(test_main binder)
 
 add_executable(service_manager servicemanager/binder.c servicemanager/service_manager.c)
-target_link_libraries(service_manager binder selinux)
+target_link_libraries(service_manager binder)
 
 add_executable(bctest servicemanager/binder.c servicemanager/bctest.c)
-target_link_libraries(bctest binder selinux)
+target_link_libraries(bctest binder)
 
 ## aidl-cpp
 if (EXISTS "aidl-cpp/CMakeLists.txt")
