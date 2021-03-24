@@ -7,11 +7,19 @@ The most of source code was come from Android Source Repositories. But, the sour
 2. libselinux must be installed. http://userspace.selinuxproject.org/ (optional in newest version)
 3. CMake is used as a build system.
 4. If you want to build with aidl-cpp, please do "git clone https://github.com/hiking90/aidl-cpp.git" as a subdirectory of the project. Ex) $ cd binder-linux && git clone ... 
-
+5. You can get aidl-cpp via "git submodule update --init" in newest version
 ## Build
 <pre>
 $ mkdir cmake/build -p
 $ cd cmake/build
+$ cmake ../..
+$ make
+</pre>
+
+## aidl-tool Build
+<pre>
+$ cd aidl-tool
+$ mkdir cmake/build -p
 $ cmake ../..
 $ make
 </pre>

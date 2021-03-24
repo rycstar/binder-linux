@@ -43,8 +43,3 @@ target_link_libraries(service_manager binder)
 add_executable(bctest servicemanager/binder.c servicemanager/bctest.c)
 target_link_libraries(bctest binder)
 
-## aidl-cpp
-if (EXISTS "aidl-cpp/CMakeLists.txt")
-add_subdirectory(aidl-cpp)
-endif()
-
