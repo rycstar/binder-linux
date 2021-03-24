@@ -32,6 +32,11 @@ $ ./test_main
 </pre>
 
 ## Aidl for Cpp
+<pre>
+$ ./servicemanager &
+$ ./fv_rgb_service &
+$ ./fv_rgb_client
+</pre>
 
 ## AOSP Git Comments
 - native/include/binder   115e6ec7e93a68b753c9e859221785bd798ab5f8

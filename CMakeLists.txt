@@ -43,3 +43,5 @@ target_link_libraries(service_manager binder)
 add_executable(bctest servicemanager/binder.c servicemanager/bctest.c)
 target_link_libraries(bctest binder)
 
+
+add_subdirectory(aidl-example)
