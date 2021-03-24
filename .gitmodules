@@ -1,0 +1,3 @@
+[submodule "aidl-tool"]
+	path = aidl-tool
+	url = git@github.com:rycstar/aidl-cpp.git
