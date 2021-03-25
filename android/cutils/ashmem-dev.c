@@ -35,6 +35,7 @@
 
 #include <cutils/ashmem.h>
 #include <log/log.h>
+#include <stdio.h>
 
 #define ASHMEM_DEVICE "/dev/ashmem"
 
@@ -117,7 +118,7 @@ static int __ashmem_is_ashmem(int fd)
             return 0;
         }
     }
-
+#if 0
     if (rdev) {
         LOG_ALWAYS_FATAL("illegal fd=%d mode=0%o rdev=%d:%d expected 0%o %d:%d",
           fd, st.st_mode, major(st.st_rdev), minor(st.st_rdev),
@@ -128,6 +129,7 @@ static int __ashmem_is_ashmem(int fd)
           fd, st.st_mode, major(st.st_rdev), minor(st.st_rdev),
           S_IFCHR | S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IRGRP);
     }
+ #endif   
     /* NOTREACHED */
 
     errno = ENOTTY;

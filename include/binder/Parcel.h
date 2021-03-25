@@ -29,7 +29,7 @@
 #include <utils/String16.h>
 #include <utils/Vector.h>
 #include <utils/Flattenable.h>
-#include <linux/android/binder.h>
+#include <linux/android/u_binder.h>
 
 #include <binder/IInterface.h>
 #include <binder/Parcelable.h>
