@@ -11,4 +11,5 @@ module.modulemap
 system_uptime
 Testing
 CTestTestfile.cmake
-aidl-cpp
+aidl-tool
+cmake/
