@@ -94,6 +94,7 @@ static LibBinderIPCtStatics gIPCStatics;
 
 Mutex gDefaultServiceManagerLock;
 sp<IServiceManager> gDefaultServiceManager;
+#ifdef SERVICES_PERMISSION_ENABLED
 sp<IPermissionController> gPermissionController;
-
+#endif
 }   // namespace android

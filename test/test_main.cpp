@@ -62,6 +62,7 @@ status_t BnTesterListener::onTransact(uint32_t code, const Parcel& data,
             callback(val);
         }
     }
+    return OK;
 }
 
 enum {

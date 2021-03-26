@@ -16,6 +16,8 @@
 
 #define LOG_TAG "PermissionController"
 
+#ifdef SERVICES_PERMISSION_ENABLED
+
 #include <binder/IPermissionController.h>
 
 #include <utils/Log.h>
@@ -128,3 +130,4 @@ status_t BnPermissionController::onTransact(
 }
 
 }; // namespace android
+#endif

@@ -18,6 +18,7 @@
 #ifndef ANDROID_IPERMISSION_CONTROLLER_H
 #define ANDROID_IPERMISSION_CONTROLLER_H
 
+#ifdef SERVICES_PERMISSION_ENABLED
 #include <binder/IInterface.h>
 #include <stdlib.h>
 
@@ -57,6 +58,7 @@ public:
 // ----------------------------------------------------------------------
 
 }; // namespace android
+#endif
 
 #endif // ANDROID_IPERMISSION_CONTROLLER_H
 

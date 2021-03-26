@@ -41,8 +41,8 @@
 #include <sys/mman.h>
 #include <sys/stat.h>
 
-#define BINDER_VM_SIZE ((1*1024*1024) - (4096 *2))
-#define DEFAULT_MAX_BINDER_THREADS 15
+#define BINDER_VM_SIZE ((1*128*1024) - (4096 *2))
+#define DEFAULT_MAX_BINDER_THREADS 4
 
 
 // ---------------------------------------------------------------------------
@@ -287,7 +287,7 @@ void ProcessState::spawnPooledThread(bool isMain)
 {
     if (mThreadPoolStarted) {
         String8 name = makeBinderThreadName();
-        ALOGV("Spawning new pooled thread, name=%s\n", name.string());
+        ALOGE("Spawning new pooled thread, name=%s ismain:%d\n", name.string(),isMain);
         sp<Thread> t = new PoolThread(isMain);
         t->run(name.string());
     }

@@ -22,7 +22,9 @@
 #include <binder/IBinder.h>
 #include <binder/IMemory.h>
 #include <binder/ProcessState.h>
+#ifdef SERVICES_PERMISSION_ENABLED
 #include <binder/IPermissionController.h>
+#endif
 #include <binder/IServiceManager.h>
 
 namespace android {
@@ -37,6 +39,8 @@ extern sp<ProcessState> gProcess;
 // For IServiceManager.cpp
 extern Mutex gDefaultServiceManagerLock;
 extern sp<IServiceManager> gDefaultServiceManager;
+#ifdef SERVICES_PERMISSION_ENABLED
 extern sp<IPermissionController> gPermissionController;
+#endif
 
 }   // namespace android

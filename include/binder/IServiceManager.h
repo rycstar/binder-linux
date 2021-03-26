@@ -19,7 +19,9 @@
 #define ANDROID_ISERVICE_MANAGER_H
 
 #include <binder/IInterface.h>
+#ifdef SERVICES_PERMISSION_ENABLED
 #include <binder/IPermissionController.h>
+#endif
 #include <utils/Vector.h>
 #include <utils/String16.h>
 
@@ -76,10 +78,12 @@ status_t getService(const String16& name, sp<INTERFACE>* outService)
     return NAME_NOT_FOUND;
 }
 
+#ifdef SERVICES_PERMISSION_ENABLED
 bool checkCallingPermission(const String16& permission);
 bool checkCallingPermission(const String16& permission,
                             int32_t* outPid, int32_t* outUid);
 bool checkPermission(const String16& permission, pid_t pid, uid_t uid);
+#endif
 
 }; // namespace android
 
