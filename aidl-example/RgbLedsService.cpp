@@ -8,6 +8,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include "c_config.h"
 #include "com/fv/BnRgbLedsService.h"
 
 using namespace std;
@@ -20,13 +21,17 @@ namespace fv {
     class rgbLedsService : public BnRgbLedsService{
         public:
           ::android::binder::Status setRgbColor(int32_t id, int32_t reg, bool* _aidl_return){
-		std::cout << "set RGB" << endl;
+		            std::cout << "set RGB" << endl;
                 (void) _aidl_return;
+                get_c_config("color");
+                set_c_config("color", 10);
+                save_c_config();
                 return binder::Status::ok();
           };
-          ::android::binder::Status setRgbBrightness(int32_t id, int32_t reg, bool* _aidl_return){
-		std::cout << "set Brightness" << endl;
-                (void) _aidl_return;
+
+          ::android::binder::Status setRgbBrightness(int32_t id, int32_t reg){
+		            std::cout << "set Brightness" << endl;
+                
                 return binder::Status::ok();
           };
 

@@ -19,16 +19,18 @@ add_custom_command(
         DEPENDS "${src_aidl}"
 )
 
-include_directories(../include ../android  ${CMAKE_CURRENT_BINARY_DIR})
+include_directories(../include ../android ./  ${CMAKE_CURRENT_BINARY_DIR})
 
 set(SRCS
     IRgbLedsService.cpp
     RgbLedsService.cpp
+    c_config.c
 )
 
 set(CLIENT_SRCS
     IRgbLedsService.cpp
     RgbLedsClient.cpp
+    main.c
 )
 add_executable(fv_rgb_service ${SRCS})
 target_link_libraries(fv_rgb_service binder)
