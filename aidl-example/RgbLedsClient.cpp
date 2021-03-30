@@ -36,7 +36,7 @@ void* get_service(const char * name){
         sp<IBinder> binder = defaultServiceManager()->getService(String16(name));
         if (binder == NULL) return NULL;
         gRgbLedsService = new com::fv::BpRgbLedsService(binder);
-        printf("==============================\n");
+        
         if(binder->linkToDeath(gTester) != OK){
            printf("==============linkToDeath fail================\n"); 
         }else{
@@ -54,6 +54,18 @@ void call_set_rgb_color(void * srv, int a, int b){
         gRgbLedsService->setRgbColor(a,b,&state);
     }
     return;  
+}
+
+void call_set_rgb_list(void *srv, int num){
+    vector<string> *res = new std::vector<string>;
+    if(! srv) return;
+    if(gRgbLedsService == static_cast<com::fv::BpRgbLedsService *>(srv) && IInterface::asBinder(gRgbLedsService)->isBinderAlive()){
+        gRgbLedsService->setRgbList(num, res);
+        for (auto i = res->begin(); i != res->end(); i++) {
+            cout << *i << endl;
+        }
+    }
+    delete res;
 }
 
 void call_set_rgb_brightness(void * srv, int a, int b){

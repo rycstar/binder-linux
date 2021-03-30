@@ -21,7 +21,7 @@ namespace fv {
     class rgbLedsService : public BnRgbLedsService{
         public:
           ::android::binder::Status setRgbColor(int32_t id, int32_t reg, bool* _aidl_return){
-		            std::cout << "set RGB" << endl;
+            std::cout << "set RGB" << endl;
                 (void) _aidl_return;
                 get_c_config("color");
                 set_c_config("color", 10);
@@ -29,9 +29,21 @@ namespace fv {
                 return binder::Status::ok();
           };
 
+          ::android::binder::Status setRgbList(int32_t count, ::std::vector<::std::string>* _aidl_return){
+            _aidl_return->push_back("rgb 0 red");
+            _aidl_return->push_back("rgb 1 red");
+            _aidl_return->push_back("rgb 2 red");
+            _aidl_return->push_back("rgb 3 red");
+            _aidl_return->push_back("rgb 4 red");
+            _aidl_return->push_back("rgb 5 red");
+            _aidl_return->push_back("rgb 6 red");
+            return binder::Status::ok();
+          }
+
           ::android::binder::Status setRgbBrightness(int32_t id, int32_t reg){
-		            std::cout << "set Brightness" << endl;
-                
+                std::cout << "set Brightness" << endl;
+                sleep(3);
+                std::cout << "set Brightness done" << endl;
                 return binder::Status::ok();
           };
 
