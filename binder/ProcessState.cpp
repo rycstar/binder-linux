@@ -287,7 +287,7 @@ void ProcessState::spawnPooledThread(bool isMain)
 {
     if (mThreadPoolStarted) {
         String8 name = makeBinderThreadName();
-        ALOGE("Spawning new pooled thread, name=%s ismain:%d\n", name.string(),isMain);
+        ALOGV("Spawning new pooled thread, name=%s ismain:%d\n", name.string(),isMain);
         sp<Thread> t = new PoolThread(isMain);
         t->run(name.string());
     }
