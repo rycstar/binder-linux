@@ -25,6 +25,7 @@ namespace fv {
         public :
             
             ::android::binder::Status post_evt(const ::std::string& tag, const ::std::string& content){
+                Mutex::Autolock lock(mlock_);
                 
                 if(_topic_map.find(tag) == _topic_map.end()){
                     return binder::Status::ok();
@@ -44,6 +45,7 @@ namespace fv {
             };
 
             ::android::binder::Status register_evt(const ::std::string& name, const ::android::sp<::android::IBinder>& listener, const ::std::string& subscribe){
+                Mutex::Autolock lock(mlock_);
                 /*
                 * check the listener is in the map or not
                 * If not, add it into map and link the deathRecipient
@@ -76,6 +78,8 @@ namespace fv {
             };
 
             ::android::binder::Status unregister_evt(const ::std::string& name, const ::android::sp<::android::IBinder>& listener, const ::std::string& subscribe){
+                Mutex::Autolock lock(mlock_);
+
                 if(_topic_map.find(subscribe) == _topic_map.end()){
                     return binder::Status::ok();
                 }
@@ -89,6 +93,9 @@ namespace fv {
 
         private:
             virtual void binderDied(const wp<IBinder>& who){
+
+                Mutex::Autolock lock(mlock_);
+
                 auto iter = _listener_map.begin();
                 while(iter != _listener_map.end()){
                     sp<IBinder> mb(IInterface::asBinder(iter->second.get()));
@@ -129,6 +136,7 @@ namespace fv {
 
             tListenerMap _listener_map;
             tTopicMap _topic_map;
+            Mutex mlock_;
     };
 }
 
@@ -141,7 +149,7 @@ int main(void){
 
     sm->addService(String16("com.fv.IEventBusService"), new com::fv::EventBus());
     ProcessState::self()->startThreadPool();
-    sleep(60);
-    //IPCThreadState::self()->joinThreadPool();
+    //sleep(60);
+    IPCThreadState::self()->joinThreadPool();
     return 0;
 }
