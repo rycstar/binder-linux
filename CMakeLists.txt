@@ -8,7 +8,7 @@ set(CMAKE_INSTALL_PREFIX "/usr/local")
 
 project(binder-linux)
 
-set(CMAKE_CXX_FLAGS "-std=gnu++11 -fPIC -DPIC")
+set(CMAKE_CXX_FLAGS "-std=gnu++11 -Wno-psabi -fPIC -DPIC")
 set(CMAKE_C_FLAGS "-fPIC -DPIC")
 
 include_directories(android/safe_iop include android)
